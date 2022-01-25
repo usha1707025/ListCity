@@ -90,7 +90,34 @@ public class MainActivityTest{
         String city = (String) cityList.getItemAtPosition(0); // Get item from first position
         assertEquals("Edmonton", city);
     }
+//******************************************************************************************
+@Test
+public void Page(){
+    // Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
+    solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
+    solo.clickOnButton("ADD CITY"); //Click ADD CITY Button
+
+    //Get view for EditText and enter a city name
+    solo.enterText((EditText) solo.getView(R.id.editText_name), "Edmonton");
+    solo.clickOnButton("CONFIRM"); //Select CONFIRM Button
+    solo.clearEditText((EditText) solo.getView(R.id.editText_name)); //Clear the EditText
+
+            /* True if there is any text: Edmonton on the screen, wait at least 2 seconds and
+            find minimum one match. */
+    assertTrue(solo.waitForText("Edmonton", 1, 2000));
+
+
+
+
+    solo.clickInList(1);
+    solo.assertCurrentActivity("ok",ShowActivity.class);
+    assertTrue(solo.waitForText("Edmonton", 1, 2000));
+    solo.clickOnButton("back"); //Select back Button
+    solo.assertCurrentActivity("main", MainActivity.class);
+}
+
+    //*****************************************************************************************
     /**
      * Close activity after each test
      * @throws Exception
